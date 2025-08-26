@@ -1,0 +1,29 @@
+uuid: 740c084e-6d1d-4d5e-bf4b-7495dd4dde6c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_type
+    - node.type.transaction
+    - taxonomy.vocabulary.types
+id: node.transaction.field_type
+field_name: field_type
+entity_type: node
+bundle: transaction
+label: Type
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      types: types
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

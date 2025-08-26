@@ -1,0 +1,22 @@
+uuid: ace0e0cb-a9cc-4a32-bd22-33309648aba9
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.transaction
+id: node.transaction.promote
+field_name: promote
+entity_type: node
+bundle: transaction
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

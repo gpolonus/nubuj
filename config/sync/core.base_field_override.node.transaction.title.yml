@@ -1,0 +1,18 @@
+uuid: 33d8ea57-4495-43c1-92af-859ffab62d61
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.transaction
+id: node.transaction.title
+field_name: title
+entity_type: node
+bundle: transaction
+label: Location
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

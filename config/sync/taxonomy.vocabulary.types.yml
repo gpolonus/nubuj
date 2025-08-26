@@ -1,0 +1,9 @@
+uuid: e107e76a-5958-4517-97ff-18b0259284d4
+langcode: en
+status: true
+dependencies: {  }
+name: Types
+vid: types
+description: 'The type of transaction'
+weight: 0
+new_revision: false
