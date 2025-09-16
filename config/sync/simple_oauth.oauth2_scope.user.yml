@@ -1,0 +1,22 @@
+uuid: fb2157a1-5577-40bf-8156-3c4a5bb135af
+langcode: en
+status: true
+dependencies: {  }
+id: user
+name: user
+description: 'User scope'
+grant_types:
+  refresh_token:
+    status: true
+    description: ''
+  authorization_code:
+    status: true
+    description: ''
+  client_credentials:
+    status: false
+    description: ''
+umbrella: false
+parent: _none
+granularity_id: role
+granularity_configuration:
+  role: authenticated

@@ -3,24 +3,20 @@ langcode: en
 status: true
 dependencies:
   config:
-    - filter.format.basic_html
+    - node.type.transaction
   module:
-    - contact
-    - file
-    - filter
-    - search
-    - shortcut
+    - node
+    - simple_oauth
     - system
 _core:
   default_config_hash: cFrlqjtkTfvY3RGccjJkPf1SGIfJ942IrxTLWAO4mgA
 id: authenticated
-label: 'Authenticated user'
+label: User
 weight: 1
 is_admin: false
 permissions:
   - 'access content'
-  - 'access shortcuts'
-  - 'access site-wide contact form'
-  - 'delete own files'
-  - 'search content'
-  - 'use text format basic_html'
+  - 'add simple_oauth entities'
+  - 'create transaction content'
+  - 'delete own transaction content'
+  - 'edit own transaction content'
