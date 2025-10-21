@@ -30,13 +30,15 @@ export default function PurchaseEntrySequence() {
   let view;
   if (!purchaseType) {
     view = (
-      <div className='fixed left-0 top-0 w-full p-8 pt-28 sm:p-28 h-screen flex flex-col gap-2'>
+      <div className='fixed left-0 top-0 w-full p-8 pt-28 sm:p-28 h-screen flex flex-col gap-2 sm:gap-8'>
         {purchaseTypes.map(type => (
-          <Link className='flex-1 w-full' key={type} href={makeQueryString({ purchaseType: type })}>
-            <Button className='h-full w-full text-8xl'>
-              {type}
-            </Button>
-          </Link>
+          <div key={type} className='flex-1 w-full text-center'>
+            <Link href={makeQueryString({ purchaseType: type })}>
+              <Button className='h-full w-full text-8xl bg-white text-black border-4 border-black hover:bg-input sm:w-1/2'>
+                {type}
+              </Button>
+            </Link>
+          </div>
         ))}
       </div>
     )
