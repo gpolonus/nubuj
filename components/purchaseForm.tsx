@@ -36,7 +36,7 @@ export default function PurchaseForm({
   async function submitHandler (event: React.MouseEvent) {
     event.preventDefault()
     setPending(true)
-console.log({ displayAmount, amount: parseFloat(displayAmount) })
+
     const purchase = {
       recipient,
       amount: parseFloat(displayAmount),

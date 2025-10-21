@@ -33,7 +33,7 @@ export default function PurchaseChart({ purchases }: { purchases: Purchase[] }) 
   })
 
   return (
-    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+    <ChartContainer config={chartConfig} className="min-h-[200px] w-full pb-4">
       <BarChart accessibilityLayer data={monthlyPurchasesAgg}>
         <CartesianGrid vertical={false} />
          <XAxis

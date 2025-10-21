@@ -32,7 +32,7 @@ export function PurchasesTable<TData, TValue>({
   })
 
   return (
-    <div className="overflow-hidden rounded-md border">
+    <div className="overflow-hidden rounded-md border mb-6">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
