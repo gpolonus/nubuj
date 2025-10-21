@@ -15,11 +15,41 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Purchase } from "@/lib/types"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
+
+export const columns: ColumnDef<Purchase>[] = [
+  {
+    accessorKey: "date",
+    header: "Date",
+  },
+  {
+    accessorKey: "recipient",
+    header: "Recipient",
+  },
+  {
+    accessorKey: "type",
+    header: "Type",
+  },
+  {
+    accessorKey: "amount",
+    header: "Amount",
+    cell: ({ row }) => {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(row.getValue('amount'))
+    }
+  },
+  {
+    accessorKey: "note",
+    header: "Note",
+  },
+]
 
 export function PurchasesTable<TData, TValue>({
   columns,

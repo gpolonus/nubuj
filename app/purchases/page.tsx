@@ -1,35 +1,12 @@
 
 import { Suspense } from 'react';
-import { PurchasesTable } from '@/components/purchasesTable'
+import { columns, PurchasesTable } from '@/components/purchasesTable'
 import { createClient } from '@/utils/supabase/server';
 import { Purchase } from "@/lib/types"
 import { ColumnDef } from "@tanstack/react-table"
 import PurchaseChart from '@/components/purchaseChart';
 import Loading from '@/components/ui/loading';
 import PurchasesMetrics from '@/components/purchasesMetrics';
-
-export const columns: ColumnDef<Purchase>[] = [
-  {
-    accessorKey: "date",
-    header: "Date",
-  },
-  {
-    accessorKey: "recipient",
-    header: "Recipient",
-  },
-  {
-    accessorKey: "type",
-    header: "Type",
-  },
-  {
-    accessorKey: "amount",
-    header: "Amount",
-  },
-  {
-    accessorKey: "note",
-    header: "Note",
-  },
-]
 
 export default async function Purchases() {
   return (
@@ -43,6 +20,10 @@ async function PurchasesData() {
   const supabase = await createClient();
   const response = await supabase.from("Purchases").select();
   const purchases = response.data as Purchase[]
+  purchases.sort(({ date: a }, { date: b }) =>
+    (new Date(b)).getTime() - (new Date(a)).getTime()
+  )
+
   return (
     <div>
       {purchases

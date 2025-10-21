@@ -15,7 +15,7 @@ import {
 const links = [
   {
     href: "/",
-    name: "Log"
+    name: "Add"
   },
   {
     href: "/purchases",

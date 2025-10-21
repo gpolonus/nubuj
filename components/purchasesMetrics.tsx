@@ -17,7 +17,7 @@ export default function PurchasesMetrics({ purchases }: { purchases: Purchase[] 
   )
 
   return (
-    <div className="flex flex-col sm:flex-row gap-4 pb-4">
+    <div className="flex flex-col sm:flex-row gap-4 pb-4 sm:gap-10 sm:pb-8">
       <div>
         <h3 className="text-2xl pb-2">
           Fun this Month

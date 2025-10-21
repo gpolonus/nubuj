@@ -1,6 +1,6 @@
 "use client"
 
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Purchase } from "@/lib/types"
 
@@ -43,6 +43,7 @@ export default function PurchaseChart({ purchases }: { purchases: Purchase[] }) 
           axisLine={false}
           tickFormatter={(value) => monthAbbreviations[value]}
         />
+        <YAxis />
         <ChartTooltip content={<ChartTooltipContent labelKey="false" />} />
         <ChartLegend content={<ChartLegendContent />} />
         <Bar dataKey="fun" fill="#2563eb" radius={4} />
