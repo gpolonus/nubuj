@@ -12,7 +12,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { DatePicker } from '@/components/ui/date';
 import { Button } from "./ui/button";
-import { Purchase, PurchaseType } from "@/lib/types";
+import { PurchaseType } from "@/lib/types";
 import { postPurchase } from "@/utils/supabase/server";
 import MoneyInputField from "./ui/moneyInputField";
 

@@ -11,7 +11,7 @@ export default function SignUpAlert() {
     signedUp
       ? <Alert className="mb-4">
         <CheckCircle2Icon />
-        <AlertTitle>Welcome! You've signed up!</AlertTitle>
+        <AlertTitle>Welcome! You&apos;ve signed up!</AlertTitle>
         <AlertDescription>
           You will soon get an email that you can use to finish your sign-up process.
         </AlertDescription>

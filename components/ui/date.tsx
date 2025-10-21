@@ -5,7 +5,6 @@ import { ChevronDownIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
-import { Label } from "@/components/ui/label"
 import {
   Popover,
   PopoverContent,
@@ -34,7 +33,7 @@ export function DatePicker({ date, setDate }: { date: Date, setDate?: React.Disp
             selected={date}
             captionLayout="dropdown"
             onSelect={(date) => {
-              date && setDate && setDate(date)
+              if(date && setDate) setDate(date)
               setOpen(false)
             }}
           />
