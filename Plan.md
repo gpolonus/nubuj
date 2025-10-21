@@ -38,6 +38,8 @@
 - [ ] User Configurable purchase types
   - [ ] and goals/month for each type
 - [ ] Allow users to edit/delete purchases
+- [ ] title change
+- [ ] icon change
 
 ## Questions
 
