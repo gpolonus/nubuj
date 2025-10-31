@@ -32,7 +32,7 @@ export function SiteMenu({ isSignedIn }: { isSignedIn: boolean }) {
 
   return (
     <div className="flex gap-4 p-4 fixed z-1 top-0 left-0 bg-white w-full shadow-md">
-      <div className="text-4xl">
+      <div className="text-4xl font-bold">
         NuBuj
       </div>
       {isSignedIn
