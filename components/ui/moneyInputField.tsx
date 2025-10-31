@@ -18,6 +18,7 @@ export default function MoneyInputField({
       </FieldLabel>
       <Input
         value={value}
+        type="number"
         className={isLarge ? 'text-8xl' : ''}
         onChange={e => {
           onChange(e.target.value.replace(/[^0-9\.]/g, ''))

@@ -34,9 +34,9 @@ console.log({user})
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
         <SiteMenu isSignedIn={!user.error} />
-          <main className="font-sans items-center min-h-screen p-8 pt-24 pb-0 gap-8 sm:p-28 sm:gap-16 sm:max-w-[50vw] sm:m-auto">
-            {children}
-          </main>
+        <main className="font-sans items-center min-h-screen p-8 pt-24 sm:p-0 sm:pt-24 pb-0 gap-8 sm:gap-16 sm:m-auto max-w-200">
+          {children}
+        </main>
       </body>
     </html>
   );

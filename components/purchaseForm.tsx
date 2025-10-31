@@ -13,23 +13,17 @@ import { Input } from '@/components/ui/input';
 import { DatePicker } from '@/components/ui/date';
 import { Button } from "./ui/button";
 import { PurchaseType } from "@/lib/types";
-import { postPurchase } from "@/utils/supabase/server";
+import { postPurchase, updatePurchase } from "@/utils/supabase/server";
 import MoneyInputField from "./ui/moneyInputField";
+import { useSearchParamPurchase } from "@/hooks/use-search-param-purchase";
 
-export default function PurchaseForm({
-    purchaseType: defaultPurchaseType,
-    amount: defaultAmount,
-    recipient: defaultRecipient
-  }: {
-    purchaseType: string,
-    amount: string,
-    recipient: string
-  }) {
-  const [purchaseType, setType] = React.useState(defaultPurchaseType);
-  const [recipient, setRecipient] = React.useState(defaultRecipient);
-  const [displayAmount, setDisplayAmount] = React.useState(defaultAmount);
-  const [note, setNote] = React.useState("");
-  const [date, setDate] = React.useState(new Date());
+export default function PurchaseForm() {
+  const searchParamPurchase = useSearchParamPurchase();
+  const [purchaseType, setType] = React.useState(searchParamPurchase.type || "");
+  const [recipient, setRecipient] = React.useState(searchParamPurchase.recipient || "");
+  const [displayAmount, setDisplayAmount] = React.useState(searchParamPurchase.amount?.toString() || "");
+  const [note, setNote] = React.useState(searchParamPurchase.note || "");
+  const [date, setDate] = React.useState(searchParamPurchase.date || new Date());
 
   const [isPending, setPending] = React.useState(false);
 
@@ -37,15 +31,20 @@ export default function PurchaseForm({
     event.preventDefault()
     setPending(true)
 
-    const purchase = {
+    const purchaseData = {
+      id: searchParamPurchase.id,
       recipient,
       amount: parseFloat(displayAmount),
       type: (purchaseType as PurchaseType),
       note,
       date
     }
-
-    await postPurchase(purchase)
+console.log('submitted', purchaseData, searchParamPurchase.id)
+    if (searchParamPurchase.id) {
+      await updatePurchase(purchaseData);
+    } else {
+      await postPurchase(purchaseData)
+    }
 
     setPending(false)
   }
@@ -61,7 +60,7 @@ export default function PurchaseForm({
                 <FieldLabel htmlFor="recipient">
                   Purchase Type
                 </FieldLabel>
-                <Select value={purchaseType} onValueChange={setType}>
+                <Select value={purchaseType || undefined} onValueChange={setType}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Type" />
                   </SelectTrigger>
@@ -76,7 +75,7 @@ export default function PurchaseForm({
                   Recipient
                 </FieldLabel>
                 <Input
-                  value={recipient}
+                  value={recipient || undefined}
                   onChange={e => setRecipient(e.target.value)}
                   id="recipient"
                   placeholder="Recipient"

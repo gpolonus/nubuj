@@ -16,22 +16,27 @@ export default function PurchasesMetrics({ purchases }: { purchases: Purchase[] 
       )
   )
 
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  })
+
   return (
     <div className="flex flex-col sm:flex-row gap-4 pb-4 sm:gap-10 sm:pb-8">
       <div>
         <h3 className="text-2xl pb-2">
-          Fun this Month
+          Fun
         </h3>
         <h2 className="text-4xl">
-          ${fun || 0}
+          {formatter.format(fun || 0)}
         </h2>
       </div>
       <div>
         <h3 className="text-2xl pb-2">
-          Living this Month
+          Living
         </h3>
         <h2 className="text-4xl">
-          ${living || 0}
+          {formatter.format(living || 0)}
         </h2>
       </div>
     </div>

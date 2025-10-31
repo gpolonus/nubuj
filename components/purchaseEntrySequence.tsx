@@ -30,11 +30,11 @@ export default function PurchaseEntrySequence() {
   let view;
   if (!purchaseType) {
     view = (
-      <div className='fixed left-0 top-0 w-full p-8 pt-28 sm:p-28 h-screen flex flex-col gap-2 sm:gap-8'>
+      <div className='left-0 top-0 w-full pt-28'>
         {purchaseTypes.map(type => (
-          <div key={type} className='flex-1 w-full text-center'>
-            <Link href={makeQueryString({ purchaseType: type })}>
-              <Button className='h-full w-full text-8xl bg-white text-black border-4 border-black hover:bg-input sm:w-1/2'>
+          <div key={type} className='w-full text-center pb-8'>
+            <Link href={makeQueryString({ purchaseType: type })} className='w-full sm:w-1/2'>
+              <Button className='h-full w-full max-w-125 text-8xl bg-white text-black border-4 border-black hover:bg-input'>
                 {type}
               </Button>
             </Link>
@@ -71,7 +71,7 @@ export default function PurchaseEntrySequence() {
       </Field>
     )
   } else {
-    view = <PurchaseForm purchaseType={purchaseType} amount={amount} recipient={recipient} />
+    view = <PurchaseForm />
   }
 
   return view

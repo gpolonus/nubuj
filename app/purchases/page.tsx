@@ -3,7 +3,6 @@ import { Suspense } from 'react';
 import { columns, PurchasesTable } from '@/components/purchasesTable'
 import { createClient } from '@/utils/supabase/server';
 import { Purchase } from "@/lib/types"
-import { ColumnDef } from "@tanstack/react-table"
 import PurchaseChart from '@/components/purchaseChart';
 import Loading from '@/components/ui/loading';
 import PurchasesMetrics from '@/components/purchasesMetrics';

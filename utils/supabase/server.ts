@@ -41,13 +41,53 @@ export async function postPurchase(purchase: Purchase) {
     return;
   }
 
-  purchase.user_id = userId;
   const { error } = await supabase
     .from('Purchases')
-    .insert(purchase);
+    .insert({
+      date: purchase.date,
+      amount: purchase.amount,
+      type: purchase.type,
+      note: purchase.note,
+      recipient: purchase.recipient,
+      user_id: userId
+    });
 
   // TODO: do something with the error
 
   revalidatePath('/purchases');
   redirect('/purchases');
+}
+
+export async function updatePurchase(purchase: Purchase) {
+  const supabase = await createClient();
+  const userId = (await supabase.auth.getUser())?.data?.user?.id;
+  if (!userId) {
+    // TODO: error state;
+    return;
+  }
+
+  const { error } = await supabase
+    .from('Purchases')
+    .upsert({
+      ...purchase,
+      user_id: userId
+    });
+
+  // TODO: do something with the error
+
+  revalidatePath('/purchases');
+  redirect('/purchases');
+}
+
+export async function deletePurchase(purchase: Purchase) {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from('Purchases')
+    .delete()
+    .match({ id: parseInt(purchase.id || '') });
+
+  // TODO: do something with the error
+
+  revalidatePath('/purchases');
 }

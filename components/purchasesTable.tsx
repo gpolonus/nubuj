@@ -15,12 +15,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { MoreHorizontal } from "lucide-react"
 import { Purchase } from "@/lib/types"
-
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { deletePurchase } from "@/utils/supabase/server"
+import { redirect } from "next/navigation"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
+
 
 export const columns: ColumnDef<Purchase>[] = [
   {
@@ -48,6 +60,56 @@ export const columns: ColumnDef<Purchase>[] = [
   {
     accessorKey: "note",
     header: "Note",
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const purchase = row.original
+      const {
+        id,
+        date,
+        amount,
+        type,
+        note,
+        recipient,
+      } = purchase
+
+      const searchParamsData = {
+        id,
+        date,
+        amount,
+        purchaseType: type,
+        note,
+        recipient,
+      }
+
+      const searchParams = Object.entries(searchParamsData).map(([key, value]) => `${key}=${value}`).join('&')
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => deletePurchase(purchase)}
+            >
+              Delete
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => redirect(`/?${searchParams}`)}
+            >
+              Edit
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
+    },
   },
 ]
 
