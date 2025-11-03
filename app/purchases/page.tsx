@@ -18,7 +18,10 @@ export default async function Purchases() {
 async function PurchasesData() {
   const supabase = await createClient();
   const response = await supabase.from("Purchases").select();
-  const purchases = response.data as Purchase[]
+  const purchases = response.data?.map(p => {
+    p.date = new Date(p.date || "")
+    return p
+  }) as Purchase[]
   purchases.sort(({ date: a }, { date: b }) =>
     (new Date(b)).getTime() - (new Date(a)).getTime()
   )
@@ -28,8 +31,7 @@ async function PurchasesData() {
       {purchases
         ? (
           <>
-            <PurchasesMetrics purchases={purchases} />
-            <PurchaseChart purchases={purchases} />
+            {/* <PurchaseChart purchases={purchases} /> */}
             <PurchasesTable columns={columns} data={purchases} />
           </>
         )

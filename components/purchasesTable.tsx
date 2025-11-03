@@ -3,10 +3,18 @@
 import {
   ColumnDef,
   flexRender,
+  getFilteredRowModel,
   getCoreRowModel,
   useReactTable,
+  ColumnFiltersState,
 } from "@tanstack/react-table"
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import {
   Table,
   TableBody,
@@ -28,16 +36,27 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { deletePurchase } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
+import { getMonthYear } from "@/lib/utils"
+import PurchasesMetrics from "./purchasesMetrics"
+import { useState } from "react"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
 
-
 export const columns: ColumnDef<Purchase>[] = [
   {
     accessorKey: "date",
     header: "Date",
+    filterFn(row, columnId, filterValue) {
+      const filterDate = new Date(filterValue);
+      const date = new Date(row.getValue("date")?? "")
+      return date.getMonth() === filterDate.getMonth() && date.getFullYear() === filterDate.getFullYear()
+    },
+    cell: ({ row }) => {
+      const date = row.getValue('date') as Date
+      return date?.toDateString()
+    }
   },
   {
     accessorKey: "recipient",
@@ -117,56 +136,103 @@ export function PurchasesTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
+    [
+      {
+        id: 'date',
+        value: getMonthYear(new Date())
+      }
+    ]
+  )
+
+  const monthFilterValue = columnFilters[0].value as string
+
+  const monthFilterOptions = Object.keys(Object.groupBy(data as Purchase[], (row) => {
+    const date = row.date
+    console.log({row})
+    return getMonthYear(date)
+  }))
+  monthFilterOptions.sort((a, b) => {
+    const dateB = new Date(b).getTime()
+    const dateA = new Date(a).getTime()
+    return dateA - dateB;
+  })
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      columnFilters,
+    },
   })
 
   return (
-    <div className="overflow-hidden rounded-md border mb-6">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                )
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+    <>
+      <PurchasesMetrics purchases={data as Purchase[]} month={monthFilterValue} />
+      <div className="flex items-center py-4">
+        <Select
+            value={table.getColumn("date")?.getFilterValue() as string || ""}
+            onValueChange={(value) =>
+              table.getColumn("date")?.setFilterValue(value)
+            }
+          >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Month" />
+          </SelectTrigger>
+          <SelectContent>
+            {monthFilterOptions.map((month) => (
+              <SelectItem key={month} value={month}>{month}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="overflow-hidden rounded-md border mb-6">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  )
+                })}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </div>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+    </>
   )
 }

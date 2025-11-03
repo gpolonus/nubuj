@@ -3,6 +3,7 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Purchase } from "@/lib/types"
+import { monthAbbreviations } from "@/lib/utils"
 
 //TODO: Make the purchase types dynamic
 const chartConfig = {
@@ -15,8 +16,6 @@ const chartConfig = {
     color: "#60a5fa",
   },
 } satisfies ChartConfig
-
-const monthAbbreviations = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 export default function PurchaseChart({ purchases }: { purchases: Purchase[] }) {
   const purchasesByMonth = Object.groupBy(purchases, ({ date }) => (new Date(date)).getMonth())

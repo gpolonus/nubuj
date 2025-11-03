@@ -1,10 +1,11 @@
 'use client'
 
 import { Purchase } from "@/lib/types";
+import { getMonthYear } from "@/lib/utils";
 
-export default function PurchasesMetrics({ purchases }: { purchases: Purchase[] }) {
-  const currentMonth = (new Date()).getMonth()
-  const currentPurchases = purchases.filter(({ date }) => (new Date(date)).getMonth() === currentMonth);
+export default function PurchasesMetrics({ purchases, month }: { purchases: Purchase[], month: string | undefined }) {
+  const currentMonth = month || getMonthYear(new Date())
+  const currentPurchases = purchases.filter(({ date }) => getMonthYear(date) === currentMonth);
   const typePurchases = Object.groupBy(currentPurchases, ({ type }) => type)
   const {fun, living} = Object.fromEntries(
     Object.entries(typePurchases)
