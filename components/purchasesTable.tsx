@@ -146,10 +146,9 @@ export function PurchasesTable<TData, TValue>({
   )
 
   const monthFilterValue = columnFilters[0].value as string
-
+console.log('monthFilterValue', monthFilterValue)
   const monthFilterOptions = Object.keys(Object.groupBy(data as Purchase[], (row) => {
     const date = row.date
-    console.log({row})
     return getMonthYear(date)
   }))
   monthFilterOptions.sort((a, b) => {
@@ -168,6 +167,8 @@ export function PurchasesTable<TData, TValue>({
       columnFilters,
     },
   })
+
+  console.log('row length', table.getRowModel().rows?.length)
 
   return (
     <>
