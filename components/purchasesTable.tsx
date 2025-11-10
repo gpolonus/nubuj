@@ -61,6 +61,8 @@ export function PurchasesTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   })
 
+  console.log('row length', table.getRowModel().rows?.length)
+
   return (
     <div className="overflow-hidden rounded-md border mb-6">
       <Table>
