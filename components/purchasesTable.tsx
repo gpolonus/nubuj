@@ -36,7 +36,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { deletePurchase } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
-import { getMonthYear } from "@/lib/utils"
+import { getMonthYear, abbreviationsToMonth } from "@/lib/utils"
 import PurchasesMetrics from "./purchasesMetrics"
 import { useState } from "react"
 interface DataTableProps<TData, TValue> {
@@ -49,13 +49,13 @@ export const columns: ColumnDef<Purchase>[] = [
     accessorKey: "date",
     header: "Date",
     filterFn(row, columnId, filterValue) {
-      const filterDate = new Date(filterValue);
-      const date = new Date(row.getValue("date")?? "")
-      console.log('recipient', row.getValue('recipient'))
-      console.log('filterValue', filterValue)
-      console.log('filterDate', filterDate)
-      console.log('date', date)
-      return date.getMonth() === filterDate.getMonth() && date.getFullYear() === filterDate.getFullYear()
+      // Moving away from `new Date(filterValue)` because Chrome on mobile
+      // devices has a differente Date implementation, so parsing it by hand
+      // here is more stable.
+      let [filterMonth, filterYear] = filterValue.split(" ")
+      filterMonth = abbreviationsToMonth[filterMonth]
+      const date = new Date(row.getValue("date") ?? "")
+      return date.getMonth() === filterMonth && date.getFullYear() === filterYear
     },
     cell: ({ row }) => {
       const date = row.getValue('date') as Date
@@ -149,9 +149,7 @@ export function PurchasesTable<TData, TValue>({
     ]
   )
 
-  console.log('initial data length', data.length)
   const monthFilterValue = columnFilters[0].value as string
-console.log('monthFilterValue', monthFilterValue)
 
   const monthFilterOptions = Object.keys(Object.groupBy(data as Purchase[], (row) => {
     const date = row.date
@@ -173,8 +171,6 @@ console.log('monthFilterValue', monthFilterValue)
       columnFilters,
     },
   })
-
-  console.log('row length', table.getRowModel().rows?.length)
 
   return (
     <>
