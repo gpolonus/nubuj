@@ -166,11 +166,11 @@ console.log('monthFilterValue', monthFilterValue)
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    // onColumnFiltersChange: setColumnFilters,
-    // getFilteredRowModel: getFilteredRowModel(),
-    // state: {
-    //   columnFilters,
-    // },
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      columnFilters,
+    },
   })
 
   console.log('row length', table.getRowModel().rows?.length)
