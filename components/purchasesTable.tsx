@@ -52,6 +52,7 @@ export const columns: ColumnDef<Purchase>[] = [
       const filterDate = new Date(filterValue);
       const date = new Date(row.getValue("date")?? "")
       console.log('recipient', row.getValue('recipient'))
+      console.log('filterValue', filterValue)
       console.log('filterDate', filterDate)
       console.log('date', date)
       return date.getMonth() === filterDate.getMonth() && date.getFullYear() === filterDate.getFullYear()
