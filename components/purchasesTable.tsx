@@ -52,10 +52,9 @@ export const columns: ColumnDef<Purchase>[] = [
       // Moving away from `new Date(filterValue)` because Chrome on mobile
       // devices has a differente Date implementation, so parsing it by hand
       // here is more stable.
-      let [filterMonth, filterYear] = filterValue.split(" ")
-      filterMonth = abbreviationsToMonth[filterMonth]
+      const [filterMonthAbbr, filterYear] = filterValue.split(" ")
       const date = new Date(row.getValue("date") ?? "")
-      return date.getMonth() === filterMonth && date.getFullYear() === filterYear
+      return date.getMonth() === abbreviationsToMonth[filterMonthAbbr] && date.getFullYear() === filterYear
     },
     cell: ({ row }) => {
       const date = row.getValue('date') as Date
