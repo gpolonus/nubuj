@@ -51,6 +51,9 @@ export const columns: ColumnDef<Purchase>[] = [
     filterFn(row, columnId, filterValue) {
       const filterDate = new Date(filterValue);
       const date = new Date(row.getValue("date")?? "")
+      console.log('recipient', row.getValue('recipient'))
+      console.log('filterDate', filterDate)
+      console.log('date', date)
       return date.getMonth() === filterDate.getMonth() && date.getFullYear() === filterDate.getFullYear()
     },
     cell: ({ row }) => {
@@ -148,6 +151,7 @@ export function PurchasesTable<TData, TValue>({
   console.log('initial data length', data.length)
   const monthFilterValue = columnFilters[0].value as string
 console.log('monthFilterValue', monthFilterValue)
+
   const monthFilterOptions = Object.keys(Object.groupBy(data as Purchase[], (row) => {
     const date = row.date
     return getMonthYear(date)
@@ -162,11 +166,11 @@ console.log('monthFilterValue', monthFilterValue)
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    state: {
-      columnFilters,
-    },
+    // onColumnFiltersChange: setColumnFilters,
+    // getFilteredRowModel: getFilteredRowModel(),
+    // state: {
+    //   columnFilters,
+    // },
   })
 
   console.log('row length', table.getRowModel().rows?.length)
