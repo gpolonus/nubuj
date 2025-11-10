@@ -54,7 +54,8 @@ export const columns: ColumnDef<Purchase>[] = [
       // here is more stable.
       const [filterMonthAbbr, filterYear] = filterValue.split(" ")
       const date = new Date(row.getValue("date") ?? "")
-      return date.getMonth() === abbreviationsToMonth[filterMonthAbbr] && date.getFullYear() === filterYear
+      console.log({ filterValue, filterMonthAbbr, filterYear, filterMonth: abbreviationsToMonth[filterMonthAbbr], dateMonth: date.getMonth() })
+      return date.getMonth() === abbreviationsToMonth[filterMonthAbbr] && date.getFullYear().toString() === filterYear
     },
     cell: ({ row }) => {
       const date = row.getValue('date') as Date
