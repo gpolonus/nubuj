@@ -145,6 +145,7 @@ export function PurchasesTable<TData, TValue>({
     ]
   )
 
+  console.log('initial data length', data.length)
   const monthFilterValue = columnFilters[0].value as string
 console.log('monthFilterValue', monthFilterValue)
   const monthFilterOptions = Object.keys(Object.groupBy(data as Purchase[], (row) => {
